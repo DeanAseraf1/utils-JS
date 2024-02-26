@@ -13,19 +13,49 @@ const getStylesheet = () => {
 //Recursive
 const objectToStyledString = (obj) => {
     let style = "";
+    let styledObj = {defaults: {}, pseudos: {}, medias: {}}
     foreachField(obj, (key, val) => {
         if(typeof(val) === "string"){
-            if(!key.includes(":") && !key.includes("@"))
-            style += `${camelCaseToDashcase(key)}: ${val};\n`;
+            if(!key.includes(":") && !key.includes("@")){
+                style += `${camelCaseToDashcase(key)}: ${val};`;
+                styledObj.defaults = {...styledObj.defaults, [key]: val};
+            }
         }
         else if (typeof(val) === "object"){
-            if(key.includes(":") && !key.includes("@"))
-            style += `&${camelCaseToDashcase(key)} {${objectToStyledString(val)}}\n`;
-            else if(key.includes(":") && key.includes("@"))
-            style += `&{${camelCaseToDashcase(key)} {${objectToStyledString(val)}}}\n`;
+            if(!key.includes(":") && !key.includes("@")){
+                const prop = camelCaseToDashcase(key);
+                foreachField(val,  (key, newVal)=>{
+                    let r = newVal + ";";
+                    if(typeof(newVal) === "object")
+                    r = objectToStyledString(newVal)
+
+                    if(key === "default"){
+                        style += `${prop}: ${r}`;
+                        styledObj.defaults = {...styledObj.defaults, [prop]: r};
+                    }
+                    else if(key.includes(":") && !key.includes("@")){
+                        style += `&${camelCaseToDashcase(key)} {${prop}: ${r}}`;
+                        styledObj.pseudos = {...styledObj.pseudos, [key]:{...styledObj.pseudos[key], [prop]: r}}
+                    }
+                    else if(key.includes(":") && key.includes("@")){
+                        style += `&{${camelCaseToDashcase(key)} {${prop}: ${r}}}`;
+                        styledObj.medias = {...styledObj.medias, [key]:{...styledObj.medias[key], [prop]: r}}
+                    }
+                })
+            }
+            else if(key.includes(":") && !key.includes("@")){
+                style += `&${camelCaseToDashcase(key)} {${objectToStyledString(val)}}`;
+                //styledObj.pseudos[key] = {...styledObj.pseudos[key], ...objectToStyledString(val)}
+            }
+            else if(key.includes(":") && key.includes("@")){
+                style += `&{${camelCaseToDashcase(key)} {${objectToStyledString(val)}}}`;
+                //styledObj.medias[key] = {...styledObj.medias[key], ...objectToStyledString(val)}
+            }
 
         }
     })
+    console.log(style);
+    console.log(styledObj);
     return style;
 }
 

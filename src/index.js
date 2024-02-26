@@ -19,6 +19,11 @@ const maxWidth600 = "@media screen and (max-width:600px)";
 const Main = () => {
   const [stylesObject, setStylesObject] = useState({
     hl:{
+      fontWeight: {
+        default: "1000",
+        [hover]: "500",
+        [maxWidth600]: "1200"
+      },
       color:"red",
       fontSize:"10px",
       [hover]:{
