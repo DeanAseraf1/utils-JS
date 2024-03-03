@@ -154,7 +154,10 @@ export const foreachField = (obj, predicate = (key, val, i) => val) => {
 export const joinObjects = (baseObj = {}, joinedObj = {}) => {
     let res = {...baseObj};
     foreachField(joinedObj, (key, val)=>{
-        if(res[key] && typeof(res[key]) === "object" && typeof(val) === "object"){
+        if(res[key] && Array.isArray(res[key]) && Array.isArray(val)){
+            res[key] = [...res[key], ...val]
+        }
+        else if(res[key] && typeof(res[key]) === "object" && typeof(val) === "object"){
             res[key] = {...joinObjects(res[key], val)}
         }
         else{
