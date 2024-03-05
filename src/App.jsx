@@ -6,7 +6,8 @@ import {Outlet} from "react-router-dom"
 import { mainContext } from '.';
 import {updateObject, styleValueToNumber, numberToStyleValue, styleNumberPred} from "./realHooks/useStyledObject"
 import { joinObjects } from './utils/format';
-import {useOutsideAlerter} from './hooks/useOutsideAlerter';
+import {useAlerter} from './realHooks/useAlerter';
+import { useSignal } from './realHooks/useSignal';
 
 const obj = {
   arr: [
@@ -26,13 +27,22 @@ const obj2 = {
     phone: "0500002323"
   }
 };
+
 console.log(joinObjects(obj,obj2))
 function App() {
   const {setBasicStyles, getBasicClass, basicStyles} = useContext(mainContext)
-  const r = useOutsideAlerter(()=>{console.log("!!")});
+  const r = useAlerter(()=>{console.log("!!")});
+  const {createSignal, createEffect} = useSignal();
+  // const {createSignal2} = useSignal();
+  const [sig, setSig] = createSignal("ME");
+  createEffect(()=>{console.log("HERE!!!!!")},[sig()], true)
+  // const [sig2, setSig2] = createSignal("ME2");
+  console.log(sig());
+  // const [signal, setSignal] = useSignal("Hello");
+  // const [sig, setSig] = useSignal("HELLO");
+  // console.log({signal});
   return <>
   <div className={getBasicClass(basicStyles.hv, basicStyles.hl)}>asd</div>
-  <div className="y">asd</div>
   {/* <button onClick={()=>setBasicStyles(prev=>{
     return {
       ...prev, 
@@ -51,6 +61,8 @@ function App() {
 
   <Link to="/test">CLICK</Link>
   <Outlet/>
+  <button onClick={()=>setSig(prev=>prev+"!")}>{sig()}</button>
+  {/* <button onClick={()=>setSig2(prev=>prev+"!")}>{sig2}</button> */}
   </>
 }
 
