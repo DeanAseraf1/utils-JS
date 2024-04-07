@@ -1,0 +1,19 @@
+.popup{
+    position:fixed;
+    margin: auto;
+    inset: 0;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+
+.popupStyling{
+    background-color: white;
+    box-shadow: 0 0 100vw 100vh rgba(0,0,0,0.3);
+    border-radius: 3px;
+    border: 1px solid black;
+    padding: 10px;
+    z-index: 2;
+    width: 80vw;
+    height: 80vh;
+}

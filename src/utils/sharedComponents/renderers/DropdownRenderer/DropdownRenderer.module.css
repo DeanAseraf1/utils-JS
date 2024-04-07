@@ -1,0 +1,54 @@
+.wrapper{
+    position: relative;
+}
+
+.dropdown{
+    position: absolute;
+}
+
+.dropdownStyling{
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: white;
+    overflow: auto;
+    z-index: 2;
+    box-shadow: 2px 2px 0 0 rgba(0,0,0,0.3);
+}
+
+.verticalTop{
+    bottom: 100%;
+    margin-bottom: 2px;
+}
+
+.verticalBottom{
+    top: 100%;
+    margin-top: 2px;
+}
+
+.verticalCenter{
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.horizontalLeft{
+    right: 100%;
+    margin-right: 2px;
+
+}
+
+.horizontalRight{
+    left: 100%;
+    margin-left: 2px;
+}
+
+.horizontalCenter{
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.middleCenter{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
